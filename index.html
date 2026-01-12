@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <style>
+    body { margin:0; background:white; display:flex; justify-content:center; align-items:center; height:100vh; }
+    #manual { display:none; }
+    button { padding:10px 20px; font-size:16px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div id="manual"><button id="btn">Redirect</button></div>
+  <script>
+    const configUrl = "https://YOUR-USER.github.io/redirect-config/config.json"; // Repo B URL
+
+    fetch(configUrl)
+      .then(r => r.json())
+      .then(data => {
+        const targetUrl = data.redirect;
+        try { window.location.href = targetUrl; window.close(); } catch(e) {}
+        setTimeout(() => {
+          const btn = document.getElementById("btn");
+          document.getElementById("manual").style.display = "block";
+          btn.onclick = () => { window.location.href = targetUrl; window.close(); };
+        }, 3000);
+      })
+      .catch(() => {
+        setTimeout(() => { document.getElementById("manual").style.display = "block"; }, 3000);
+      });
+  </script>
+</body>
+</html>
